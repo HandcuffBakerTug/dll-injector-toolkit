@@ -1,0 +1,1 @@
+"""Concrete injection methods registered in config/methods.toml."""
