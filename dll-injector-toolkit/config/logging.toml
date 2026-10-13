@@ -1,0 +1,16 @@
+[loggers]
+root = "INFO"
+
+[handlers.console]
+level  = "INFO"
+format = "%(asctime)s %(levelname)-7s %(name)s :: %(message)s"
+
+[handlers.file]
+level  = "DEBUG"
+path   = "logs/injector.log"
+rotate = "10 MB"
+keep   = 5
+
+[handlers.telemetry]
+enabled  = false
+endpoint = "http://127.0.0.1:8787/ingest"
