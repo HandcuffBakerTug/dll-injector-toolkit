@@ -1,0 +1,34 @@
+# dll-injector-toolkit — injection method registry
+# Each entry maps to a class under dll_injector/processors/methods/.
+# Order = fallback order. First method that reports success wins unless
+# `strict = true` on the job.
+
+[methods.loadlibrary]
+enabled      = true
+dll          = "dll_injector.processors.methods.loadlibrary:LoadLibraryMethod"
+requires_admin = false
+notes        = "Classic CreateRemoteThread + LoadLibraryW. Fastest, noisiest."
+
+[methods.manual_map]
+enabled      = true
+dll          = "dll_injector.processors.methods.manual_map:ManualMapMethod"
+requires_admin = true
+notes        = "Manual PE mapping. No LoadLibrary on target. Stealthier."
+
+[methods.thread_hijack]
+enabled      = true
+dll          = "dll_injector.processors.methods.thread_hijack:ThreadHijackMethod"
+requires_admin = true
+notes        = "Suspend a target thread, redirect RIP, resume. No new thread."
+
+[methods.apc_queue]
+enabled      = false
+dll          = "dll_injector.processors.methods.apc_queue:ApcQueueMethod"
+requires_admin = true
+notes        = "QueueUserAPC on alertable thread. Disabled: flaky on Win11 24H2."
+
+[pipeline]
+max_retries        = 2
+retry_backoff_ms   = 250
+default_timeout_ms = 8000
+report_dir         = "reports"
